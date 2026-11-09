@@ -171,7 +171,6 @@ td a:hover{text-decoration:underline}
     });
     $('gov').innerHTML = gh;
     $('adm').innerHTML =
-      '<div class="fact"><span class="k">Free trade agreement with the United States</span><span class="v">'+yn(!!c.fta, c.fta||'', 'None in force')+'</span></div>'+
       '<div class="fact"><span class="k">Colonial link with the United States</span><span class="v">'+yn(c.colonial,'Historical colonial link','None')+'</span></div>';
     var rankD = C.slice().sort(function(a,b){return a.distance_km-b.distance_km;}).indexOf(c)+1;
     $('geo').innerHTML =
@@ -181,16 +180,15 @@ td a:hover{text-decoration:underline}
     $('eco').innerHTML =
       '<div class="fact"><span class="k">GDP per capita, '+c.gdp_pc.year+'</span><span class="v">'+usd(c.gdp_pc.value)+'</span><span class="s">United States '+usd(H.gdp_pc.value)+' ('+H.gdp_pc.year+'), current US$</span></div>'+
       '<div class="fact"><span class="k">GDP per capita ratio</span><span class="v">'+r.toFixed(1)+'×</span><div class="rank"><i style="width:'+(100*r/maxRatio).toFixed(1)+'%"></i></div><span class="s">'+(richer?'The United States':esc(c.name))+' is higher. '+rankE+' of '+C.length+' countries here, smallest ratio first.</span></div>';
-    var t = '<thead><tr><th>Country</th><th>Cultural: average Hofstede gap</th><th>Administrative: average governance gap</th><th>Trade agreement</th><th>Colonial link</th><th>Distance (km)</th><th>Shared border</th><th>GDP per capita</th><th>GDP per capita ratio</th></tr></thead><tbody>';
+    var t = '<thead><tr><th>Country</th><th>Cultural: average Hofstede gap</th><th>Administrative: average governance gap</th><th>Colonial link</th><th>Distance (km)</th><th>Shared border</th><th>GDP per capita</th><th>GDP per capita ratio</th></tr></thead><tbody>';
     C.forEach(function(x){ var gg=avgGap(x);
-      t += '<tr'+(x===c?' class="sel"':'')+'><td><a href="#'+x.slug+'">'+esc(x.name)+'</a></td><td>'+(gg==null?'n/a':gg.toFixed(1))+'</td><td>'+(govGap(x)==null?'n/a':govGap(x).toFixed(2))+'</td><td>'+(x.fta?'Yes':'No')+'</td><td>'+(x.colonial?'Yes':'No')+'</td><td>'+n0(x.distance_km)+'</td><td>'+(x.border?'Yes':'No')+'</td><td>'+usd(x.gdp_pc.value)+'</td><td>'+ratio(x).toFixed(1)+'×</td></tr>'; });
+      t += '<tr'+(x===c?' class="sel"':'')+'><td><a href="#'+x.slug+'">'+esc(x.name)+'</a></td><td>'+(gg==null?'n/a':gg.toFixed(1))+'</td><td>'+(govGap(x)==null?'n/a':govGap(x).toFixed(2))+'</td><td>'+(x.colonial?'Yes':'No')+'</td><td>'+n0(x.distance_km)+'</td><td>'+(x.border?'Yes':'No')+'</td><td>'+usd(x.gdp_pc.value)+'</td><td>'+ratio(x).toFixed(1)+'×</td></tr>'; });
     $('all').innerHTML = t + '</tbody>';
   }
   var S = D.sources;
   $('refreshed').textContent = 'Data refreshed ' + D.refreshed;
   $('src').innerHTML = '<h3>Sources</h3><ul>'+
     '<li>Cultural: <a href="'+S.hofstede.url+'">'+esc(S.hofstede.label)+'</a>. Scores run from 0 to 100. The gap is the absolute difference between the two scores; the average gap is the mean of the six gaps.</li>'+
-    '<li>Trade agreements: <a href="'+S.fta.url+'">'+esc(S.fta.label)+'</a>, checked '+esc(S.fta.checked)+'.</li>'+
     '<li>Governance: <a href="'+S.governance.url+'">'+esc(S.governance.label)+'</a>, '+H.governance.rl.year+' estimates, database updated '+esc(S.governance.db_updated)+'. Each indicator runs from about −2.5 to +2.5; higher means stronger governance.</li>'+
     '<li>Distance, border, colonial link: <a href="'+S.geo.url+'">'+esc(S.geo.label)+'</a>.</li>'+
     '<li>GDP per capita: <a href="'+S.gdp.url+'">'+esc(S.gdp.label)+'</a>, database updated '+esc(S.gdp.db_updated)+'.</li></ul>';
